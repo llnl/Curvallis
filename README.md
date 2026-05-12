@@ -560,45 +560,67 @@ In this example, there are two sections: "Pc" and "Ec". Both sections have 2 iso
 
 Some format details:
 
-- \# in any column starts a comment
+- `#` in any column starts a comment
 
-- ; in any column starts a comment (.ini style)
+- `;` in any column starts a comment (.ini style)
 
-- --- in the FIRST column starts a comment (.yaml style)
+- `---` in the FIRST column starts a comment (.yaml style)
 
-These all set "name" to value. "name" is the command-line option, without the leading "--". The key is case sensitive: "Name" is not "name". Examples:
+```
+# This is a comment
 
-- name value
+; This is a comment too
 
-- name = value   # (.ini style)  (white space is ignored, so name = value same as name=value)
+--- So is this
+```
 
-- name: value    # (yaml style)
+These all set `"name"` to `value`. `"name"` is the command-line option, without the leading `--`. The key is case sensitive: `"Name"` is not `"name"`. Examples:
 
-- --name value   # (argparse style)
+- `name value`
 
-These all set "name" to "True". "=", ":", and "--" work similarly:
+- `name = value   # (.ini style)  (white space is ignored, so name = value same as name=value)`
 
-- --name
+- `name: value    # (yaml style)`
 
-- name
+- `--name value   # (argparse style)`
 
-- name True
+```
+# So this means "set name to value"
+name value
 
-- name true
+; This also means "set name to value"
+name = value
+
+--- This is another way to set name to value
+name: value
+
+# argparse style of setting name to value
+--name value
+```
+
+These all set `"name"` to `True`. `=`, `:`, and `--` work similarly:
+
+- `--name`
+
+- `name`
+
+- `name True`
+
+- `name true`
 
 To specify an argument with multiple values or with a type of "list":
 
-- fruit = [apple, orange, lemon]
+- `fruit = [apple, orange, lemon]`
 
-- fruit: [apple, orange, lemon]
+- `fruit: [apple, orange, lemon]`
 
-- indexes = [1, 12, 35 , 40]
+- `indexes = [1, 12, 35 , 40]`
 
-- indexes: [1, 12, 35 , 40]
+- `indexes: [1, 12, 35 , 40]`
 
 .ini-style section names are treated as comments:
 
-- [section]
+- `[section]`
 
 ### Example Configuration File
 
