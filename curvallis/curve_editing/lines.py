@@ -13,6 +13,9 @@
 import numpy as np
 from operator import itemgetter
 import math
+
+from matplotlib.axes import Axes
+
 from curvallis.version import version as VERSION_STRING
 
 # These line attributes are declared here at the top of the file so they are
@@ -37,6 +40,52 @@ line_attributes = dict(
         linestyle='',                 marker='o', markerfacecolor='orange'),
     region_boundary=dict(
         linestyle=':', color='black',))
+
+fitter_colors = dict(
+    # --- Pressure EOS fitters ---
+    AP2='crimson',
+    birch2='firebrick',
+    birch3='red',
+    birch4='darkred',
+    vinet='blue',
+    murnaghan='green',
+    sandiapc='slategray',
+    anton='darkorange',
+    bardeen='saddlebrown',
+    johnson='teal',
+    kumari='darkcyan',
+    log2='mediumvioletred',
+    log='deeppink',
+    shank='indigo',
+    broken_ap1='gray',
+    broken_ap2='dimgray',
+
+    # --- Energy EOS fitters (E-prefixed forms) ---
+    eAP2='lightcoral',
+    ebirch3='salmon',
+    ebirch4='darksalmon',
+    emurnaghan='seagreen',
+    evinet='royalblue',
+    eseries='goldenrod',
+    highp='chocolate',
+
+    # --- Theta / Gamma (Gruneisen-related) fitters ---
+    thetabp='purple',
+    gammaRho='mediumpurple',
+    gammaV='orchid',
+
+    # --- Simon-Glatzel melting-curve fitters ---
+    simong='navy',
+    simongexp='cornflowerblue',
+
+    # --- Polynomial-family fitters (matched by prefix, not exact key) ---
+    poly='orange', # poly1..poly12
+    gammapoly='darkgoldenrod', # gammapoly1..gammapoly12
+    gammapolyv='peru', # gammapolyv1..gammapolyv12
+
+    # --- Special / fallback cases ---
+    none='red', # aliases Poly_Original; matches default fit_curve color
+)
 
 
 class Line(object):
@@ -120,20 +169,20 @@ class Line(object):
         assert len(x_data_y_data) == 2, "No points in region."
 
         #Actual Line
-        self._id = self._ax.plot(
+        self._id: Axes = self._ax.plot(
             x_data_y_data[0], x_data_y_data[1],
             visible=visible,
             animated=animated,
             **self._attributes)[0]
         #Set highlighted points (Starts blank)
-        self._highlight = self._ax.plot(
+        self._highlight: Axes = self._ax.plot(
             [],[],
             visible=visible,
             animated=animated,
             linestyle='',
             marker='o', markerfacecolor='green')[0]
         #Moved points (Starts blank)
-        self._moved_points = self._ax.plot(
+        self._moved_points: Axes = self._ax.plot(
             [],[],
             visible=visible,
             animated=animated,

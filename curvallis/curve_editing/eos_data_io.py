@@ -13,6 +13,9 @@
 # Using OrderedDict to make output sections, and isotherms come out in the same
 # order they were read in, to support comparison of outputs diring unit  testing.
 from collections import OrderedDict
+from io import TextIOBase
+from typing import cast
+
 from curvallis.version import version as VERSION_STRING
 
 """This module provides input and output and a data structure for MEOS EOS
@@ -37,10 +40,10 @@ class _Reader_Writer_Base(object):
     _RHO_COUNT_FIELD_NAME  = 'numrho'
     _TEMP_COUNT_FIELD_NAME = 'numtemp'
 
-    def __init__(self, base_name):
-        self._base_name = base_name
+    def __init__(self, base_name: str):
+        self._base_name: str = base_name
         self._data_file = None
-        self._data_file_name = '%s' % self._base_name
+        self._data_file_name: str = '%s' % self._base_name
 
     ## Error handling support ##
     @staticmethod
@@ -59,10 +62,10 @@ class _Reader_Writer_Base(object):
 class _EqIfFieldsEq(object):
     """ Objects of this class are equal if their components are equal.
     """
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return not self.__eq__(other)
 
 
@@ -70,12 +73,12 @@ class _Isotherm(_EqIfFieldsEq):
     """ Contains the data for one isotherm: temperature and the rho-func
     values.
     """
-    def __init__(self, temperature, num_points):
+    def __init__(self, temperature: float, num_points: int):
         super(_Isotherm, self).__init__()
-        self.temp = temperature
+        self.temp: float = temperature
         self.num_points = num_points
         # self.points later gets filled by the parser:
-        self.points = list(range(self.num_points))
+        self.points: list[int] = list[int](range(self.num_points))
 
     def write(self, file_out):
         """ Write out the isotherm curve points for one temperature. No header,
@@ -94,13 +97,13 @@ class _Section(_EqIfFieldsEq):
     """ Contains the data for one section: the section name, fields, and isotherms.
     The number of isotherms is not known at create time.
     """
-    def __init__(self, name):
+    def __init__(self, name: str):
         super(_Section, self).__init__()
-        self.name = name
-        self.num_isotherms = 0
-        self.isotherm_num_points = 0
-        self.fields = OrderedDict()
-        self.isotherms = OrderedDict()
+        self.name: str = name
+        self.num_isotherms: int = 0
+        self.isotherm_num_points: int = 0
+        self.fields: dict = OrderedDict()
+        self.isotherms: dict = OrderedDict()
 
     def write(self, data_file):
         self._write_data(data_file)
@@ -114,7 +117,7 @@ class _Section(_EqIfFieldsEq):
             isotherm.write(file_out)
         file_out.writelines('\n')
 
-    def _values_to_string(self, values):
+    def _values_to_string(self, values: tuple[list[str], tuple]) -> str:
         """ Returns stringified value(s) separated by spaces.  Does not return
          quoted strings.
         """
@@ -127,7 +130,7 @@ class _Section(_EqIfFieldsEq):
         return result
 
     @staticmethod
-    def _value_to_string(value):
+    def _value_to_string(value) -> str:
         if isinstance(value, float):
             return '%1.15E' % value
         else:
@@ -138,7 +141,7 @@ class _Section(_EqIfFieldsEq):
 class _Parser(_Reader_Writer_Base):
     """Provides file reading support for MEOS EOS output data.
     """
-    def __init__(self, base_name, use_function):
+    def __init__(self, base_name: str, use_function: str):
         super(_Parser, self).__init__(base_name)
         self._sections = OrderedDict()
         self._read_called = False
@@ -151,9 +154,9 @@ class _Parser(_Reader_Writer_Base):
         self._current_section_name = None
         self._current_isotherm_temp = 0.0
         self._current_rho_num = 0
-        self._use_function = use_function
+        self._use_function: str = use_function
 
-    def read(self):
+    def read(self) -> dict:
         """May only be called once.
 
         :return: dict of _Sections
@@ -163,17 +166,17 @@ class _Parser(_Reader_Writer_Base):
         self._parse_data_file()
         return self._sections
 
-    def _section_wanted(self, name):
+    def _section_wanted(self, name: str) -> bool:
         return self._use_function == name or self._use_function == 'all' or \
                 self._use_function == self._INFO_SECTION_NAME
 
-    def _current_section_wanted(self):
+    def _current_section_wanted(self) -> bool:
         return self._section_wanted(self._current_section_name)
 
     def _start_new_section(self):
         """ Reuse an existing section or create a new one.
         """
-        name = self._current_field_name
+        name: str = self._current_field_name
         if self._section_wanted(name):
             if name not in self._sections:
                 self._sections[name] = _Section(name)
@@ -183,10 +186,10 @@ class _Parser(_Reader_Writer_Base):
     def _parse_data_file(self):
         message = 'Reading EOS data from "%s"' % self._data_file_name
         print (message)
-        self._at_eof = False
+        self._at_eof: bool = False
         with open(self._data_file_name, 'r') as data_file:
             self._current_file = data_file
-            self._current_line_num = 0
+            self._current_line_num: int = 0
             self._parse_data_lines()
         print ('DONE ' + message)
 
@@ -214,7 +217,7 @@ class _Parser(_Reader_Writer_Base):
         """
         self._assert_word_count_eq(3)
         name = self._current_words[0]
-        self._current_section_name = name
+        self._current_section_name: str = name
         self._current_isotherm_temp = 0.0
         self._current_rho_num = 0
         if self._section_wanted(name):
@@ -283,7 +286,7 @@ class _Parser(_Reader_Writer_Base):
             self._current_line_num += 1
             if len(self._current_line) == 0:
                 self._current_words = ()
-                self._at_eof = True
+                self._at_eof: bool = True
                 done = True
             else:
                 # 2 means number of splits here, not number of words!
@@ -314,7 +317,7 @@ class _Parser(_Reader_Writer_Base):
             '%s\nExpected field name "%s", found "%s"' %\
             (self._line_info(), name, self._current_words[0])
 
-    def _line_info(self):
+    def _line_info(self) -> str:
         return 'File %s\nLine %s: "%s"' %\
                (self._current_file.name, self._current_line_num, self._current_line)
 
@@ -333,13 +336,13 @@ class _Writer(_Reader_Writer_Base):
         print ('DONE ' + message)
 
     @staticmethod
-    def _create_file(name):
+    def _create_file(name) -> TextIOBase:
         try:
-            result = open(name, 'w')
+            result: TextIOBase = open(name, 'w')
         except IOError as e:
             print('*** EXCEPTION %s %s while opening "%s" for writing' %
                   (type(e), e, name))
-            result = None
+            result = cast(TextIOBase, cast(object, None))
         return result
 
     def _write_func_sections(self, sections):

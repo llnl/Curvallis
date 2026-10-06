@@ -513,7 +513,7 @@ class Base_Fit_Class(object):
             shouldn't be changed, their bounds should be set here
             to prevent change
         """
-        return (-np.inf, np.inf)
+        return -np.inf, np.inf
 
     def fit_to_points(self, points):
         """ Derive the coefficients for this fit function that best fit the
@@ -523,7 +523,7 @@ class Base_Fit_Class(object):
         x_values = [point[0] for point in points]
         y_values = [point[1] for point in points]
         try:
-            new_coefficients, unused = opt.curve_fit(
+            new_coefficients = opt.curve_fit(
                 f=self._f,
                 xdata=x_values,
                 ydata=y_values,
@@ -803,14 +803,14 @@ class Energy_Fit_Class(Base_Fit_Class):
 #         return self.k0, self.k0_prime, self.rho0, self.a, self.z
 
 #     def _print_coefficients(self):
-#         print("B0 = {};".format(self.k0))
-#         print("Bp = {};".format(self.k0_prime))
-#         print("rho0 = {};".format(self.rho0))
-#         print("A = {};".format(self.a))
-#         print("Z = {};".format(self.z))
-#         update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-#                                   ("rho0 = {};\n".format(self.rho0)) + ("A = {};\n".format(self.a)) +
-#                                   ("Z = {};".format(self.z)))
+#         print("B0 = {:20.20f};".format(self.k0))
+#         print("Bp = {:20.20f};".format(self.k0_prime))
+#         print("rho0 = {:20.20f};".format(self.rho0))
+#         print("A = {:20.20f};".format(self.a))
+#         print("Z = {:20.20f};".format(self.z))
+#         update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+#                                   ("rho0 = {:20.20f};\n".format(self.rho0)) + ("A = {:20.20f};\n".format(self.a)) +
+#                                   ("Z = {:20.20f};".format(self.z)))
 
 #     @staticmethod
 #     def _f(x, *coeffs):
@@ -877,14 +877,14 @@ class Ali_AP2(Pressure_Fit_Class):
     def _print_coefficients(self):
         global global_A
         global global_Z
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        print("A = {};".format(global_A))
-        print("Z = {};".format(global_Z))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("A = {};\n".format(global_A)) +
-                                  ("Z = {};".format(global_Z)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("A = {:20.20f};".format(global_A))
+        print("Z = {:20.20f};".format(global_Z))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("A = {:20.20f};\n".format(global_A)) +
+                                  ("Z = {:20.20f};".format(global_Z)))
 
     @staticmethod
     def _f(rho, *coeffs):
@@ -965,11 +965,11 @@ class E_Ali_AP2(Energy_Fit_Class):
         print("Bp = {:e};".format(self.k0_prime))
         print("rho0 = {:e};".format(self.rho0))
         print("E0 = {:e};".format(self.e0))
-        print("A = {};".format(global_A))
-        print("Z = {};".format(global_Z))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("A = {};\n".format(global_A)) +
-                                  ("Z = {};".format(global_Z)))
+        print("A = {:20.20f};".format(global_A))
+        print("Z = {:20.20f};".format(global_Z))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("A = {:20.20f};\n".format(global_A)) +
+                                  ("Z = {:20.20f};".format(global_Z)))
 
     #Special case, calculate E at rho0 for use in _f to calculate E0 to the MEOS standard instead of
     #what's published in the AP2 paper.  As described by Carrie:
@@ -1065,11 +1065,11 @@ class Birch_Murnaghan3(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1131,12 +1131,12 @@ class Birch_Murnaghan4(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.k0_prime_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("Bpp = {};".format(self.k0_prime_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("Bpp = {};\n".format(self.k0_prime_prime)) + ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("Bpp = {:20.20f};".format(self.k0_prime_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("Bpp = {:20.20f};\n".format(self.k0_prime_prime)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     # Birch_Murnaghan4 doesn't seem to converge well, use BMurn3 as inital guess.
     def guess_coefficients(self, points):
@@ -1218,11 +1218,11 @@ class Vinet(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1293,11 +1293,11 @@ class Murnaghan(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1347,24 +1347,24 @@ class SandiaPC(Pressure_Fit_Class):
         self.rho0 = args.rho0
 
     def _set_coefficients(self, coeffs):
-        (self.kneg1, self.kneg0, self.k1, self.k2, self.k3, self.k4, self.k5) = coeffs[:-1]
+        (self.kneg1, self.kneg0, self.k1, self.k2, self.k3, self.k4, self.k5, unused) = coeffs[:-1][0] # Might be the wrong place to put this put it probably works
 
     def _get_coefficients(self):
         return self.kneg1, self.kneg0, self.k1, self.k2, self.k3, self.k4, self.k5, self.rho0
 
     def _print_coefficients(self):
-        print("kneg1 = {};".format(self.kneg1))
-        print("k0 = {};".format(self.kneg0))
-        print("k1 = {};".format(self.k1))
-        print("k2 = {};".format(self.k2))
-        print("k3 = {};".format(self.k3))
-        print("k4 = {};".format(self.k4))
-        print("k5 = {};".format(self.k5))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("kneg1 = {};\n".format(self.kneg1)) + ("k0 = {};\n".format(self.kneg0)) +
-                                  ("k1 = {};\n".format(self.k1)) + ("k2 = {};\n".format(self.k2)) +
-                                  ("k3 = {};\n".format(self.k3)) + ("k4 = {};\n".format(self.k4)) +
-                                  ("k5 = {};\n".format(self.k5)) + ("rho0 = {};".format(self.rho0)))
+        print("kneg1 = {:20.20f};".format(self.kneg1))
+        print("k0 = {:20.20f};".format(self.kneg0))
+        print("k1 = {:20.20f};".format(self.k1))
+        print("k2 = {:20.20f};".format(self.k2))
+        print("k3 = {:20.20f};".format(self.k3))
+        print("k4 = {:20.20f};".format(self.k4))
+        print("k5 = {:20.20f};".format(self.k5))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("kneg1 = {:20.20f};\n".format(self.kneg1)) + ("k0 = {:20.20f};\n".format(self.kneg0)) +
+                                  ("k1 = {:20.20f};\n".format(self.k1)) + ("k2 = {:20.20f};\n".format(self.k2)) +
+                                  ("k3 = {:20.20f};\n".format(self.k3)) + ("k4 = {:20.20f};\n".format(self.k4)) +
+                                  ("k5 = {:20.20f};\n".format(self.k5)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     def bounds(self):
         """ Since rho0 is required to be given by the user, rho0 should
@@ -1437,11 +1437,11 @@ class Anton_Schmidt(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1508,11 +1508,11 @@ class Bardeen(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1568,9 +1568,9 @@ class Birch_Murnaghan2(Pressure_Fit_Class):
         return self.k0, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1620,14 +1620,14 @@ class Johnson_Holmquist(Pressure_Fit_Class):
         return self.k1, self.k2, self.k3, self.delta_p, self.rho0
 
     def _print_coefficients(self):
-        print("k1 = {};".format(self.k1))
-        print("k2 = {};".format(self.k2))
-        print("k3 = {};".format(self.k3))
-        print("delta_p = {};".format(self.delta_p))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("k1 = {};\n".format(self.k1)) + ("k2 = {};\n".format(self.k2)) +
-                                  ("k3 = {};\n".format(self.k3)) + ("delta_p = {};\n".format(self.delta_p)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("k1 = {:20.20f};".format(self.k1))
+        print("k2 = {:20.20f};".format(self.k2))
+        print("k3 = {:20.20f};".format(self.k3))
+        print("delta_p = {:20.20f};".format(self.delta_p))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("k1 = {:20.20f};\n".format(self.k1)) + ("k2 = {:20.20f};\n".format(self.k2)) +
+                                  ("k3 = {:20.20f};\n".format(self.k3)) + ("delta_p = {:20.20f};\n".format(self.delta_p)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1688,12 +1688,12 @@ class Kumari_Dass(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.lam, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("lam = {};".format(self.lam))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("lam = {};\n".format(self.lam)) + ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("lam = {:20.20f};".format(self.lam))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("lam = {:20.20f};\n".format(self.lam)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1755,9 +1755,9 @@ class Logarithmic2(Pressure_Fit_Class):
         return self.k0, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1806,11 +1806,11 @@ class Logarithmic3(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1866,11 +1866,11 @@ class Shankar(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};".format(self.rho0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -1934,11 +1934,11 @@ class Broken_Ap1(Pressure_Fit_Class):
         return self.k0, self.rho0, self.z
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("rho0 = {};".format(self.rho0))
-        print("z = {};".format(self.z))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("rho0 = {};\n".format(self.rho0)) +
-                                              ("z = {};".format(self.z)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("z = {:20.20f};".format(self.z))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("rho0 = {:20.20f};\n".format(self.rho0)) +
+                                              ("z = {:20.20f};".format(self.z)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -2003,12 +2003,12 @@ class Broken_Ap2(Pressure_Fit_Class):
         return self.k0, self.k0_prime, self.rho0, self.z
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        print("z = {};".format(self.z))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("z = {};".format(self.z)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("z = {:20.20f};".format(self.z))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("z = {:20.20f};".format(self.z)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -2070,16 +2070,16 @@ def _print_polynomial(coeffs):
     length = len(coeffs)
     calculated_polynomial = ""
     for index in range(0, length):
-        x_order = length - index - 1
+        x_order = index
         if index == 0:
-            print('%.3E * x**%d ' % (coeffs[index], x_order), end='')
-            calculated_polynomial += '%.3E * x**%d ' % (coeffs[index], x_order)
+            print('{:20.20f} '.format(coeffs[index]), end='')
+            calculated_polynomial += '{:20.20f} * x**{} '.format(coeffs[index], x_order)
         elif x_order > 0:
-            print('%+.3E * x**%d ' % (coeffs[index], x_order), end='')
-            calculated_polynomial += '%+.3E * x**%d ' % (coeffs[index], x_order)
+            print('{} {:20.20f} * x**{} '.format('+' if coeffs[index] > 0 else '', coeffs[index], x_order), end='')
+            calculated_polynomial += '{} {:20.20f} * x**{} '.format('+' if coeffs[index] > 0 else '', coeffs[index], x_order)
         else:
-            print('%+.3E' % coeffs[index])
-            calculated_polynomial += '%+.3E' % coeffs[index]
+            print('{} {:20.20f}'.format('+' if coeffs[index] > 0 else '', coeffs[index]))
+            calculated_polynomial += '{} {:20.20f}'.format('+' if coeffs[index] > 0 else '', coeffs[index])
     update_fitter_info_window(-2, False, calculated_polynomial)
     print()
 
@@ -2104,6 +2104,7 @@ class Poly_Original(PolyBase):
         self.integral_scale = args.integral_scale
         self.x_integral_ref = args.x_integral_ref
         self.y_integral_ref = args.y_integral_ref
+        self.name = name
 
     def _set_poly(self, coeffs):
         # Create a polynomial function using the coefficients, to be used to
@@ -2186,12 +2187,12 @@ class EBirch_Murnaghan3(Energy_Fit_Class):
         return self.k0, self.k0_prime, self.rho0, self.e0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        print("E0 = {};".format(self.e0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("E0 = {};".format(self.e0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("E0 = {:20.20f};".format(self.e0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("E0 = {:20.20f};".format(self.e0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -2240,14 +2241,14 @@ class EBirch_Murnaghan4(Energy_Fit_Class):
         return self.k0, self.k0_prime, self.k0_prime_prime, self.rho0, self.e0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("Bpp = {};".format(self.k0_prime_prime))
-        print("rho0 = {};".format(self.rho0))
-        print("E0 = {};".format(self.e0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("Bpp = {};\n".format(self.k0_prime_prime)) + ("rho0 = {};\n".format(self.rho0)) +
-                                  ("E0 = {};".format(self.e0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("Bpp = {:20.20f};".format(self.k0_prime_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("E0 = {:20.20f};".format(self.e0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("Bpp = {:20.20f};\n".format(self.k0_prime_prime)) + ("rho0 = {:20.20f};\n".format(self.rho0)) +
+                                  ("E0 = {:20.20f};".format(self.e0)))
 
     # Birch_Murnaghan4 doesn't seem to converge well, use BMurn3 as inital guess.
     # New guessing algorithm works well now, so taking out BMurn3 stuff
@@ -2297,12 +2298,12 @@ class EMurnaghan(Energy_Fit_Class):
         return self.k0, self.k0_prime, self.rho0, self.e0
 
     def _print_coefficients(self):
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        print("E0 = {};".format(self.e0))
-        update_fitter_info_window(-1, False, ("B0 = {};\n".format(self.k0)) + ("Bp = {};\n".format(self.k0_prime)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("E0 = {};".format(self.e0)))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("E0 = {:20.20f};".format(self.e0))
+        update_fitter_info_window(-1, False, ("B0 = {:20.20f};\n".format(self.k0)) + ("Bp = {:20.20f};\n".format(self.k0_prime)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("E0 = {:20.20f};".format(self.e0)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -2358,11 +2359,11 @@ class ESeries(Energy_Fit_Class):
                 self.cn[10], self.cn[11], self.order)
 
     def _print_coefficients(self):
-        print("rho0 = {};".format(self.rho0))
-        fitter_info_text = ("rho0 = {};\n".format(self.rho0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        fitter_info_text = ("rho0 = {:20.20f};\n".format(self.rho0))
         for i in range(0, int(self.order) - 3):
-            print("C{} = {};".format(i + 4, self.cn[i]))
-            fitter_info_text += ("C{} = {};\n".format(i + 4, self.cn[i]))
+            print("C{} = {:20.20f};".format(i + 4, self.cn[i]))
+            fitter_info_text += ("C{} = {:20.20f};\n".format(i + 4, self.cn[i]))
         update_fitter_info_window(-1, False, fitter_info_window[0:len(fitter_info_text)-1])
 
     @staticmethod
@@ -2419,12 +2420,12 @@ class EVinet(Energy_Fit_Class):
         return self.k0, self.k0_prime, self.rho0, self.e0
 
     def _print_coefficients(self):
-        print("E0 = {};".format(self.e0))
-        print("B0 = {};".format(self.k0))
-        print("Bp = {};".format(self.k0_prime))
-        print("rho0 = {};".format(self.rho0))
-        update_fitter_info_window(-1, False, ("E0 = {};\n".format(self.e0)) + ("B0 = {};\n".format(self.k0)) +
-                                  ("Bp = {};\n".format(self.k0_prime)) + ("rho0 = {};".format(self.rho0)))
+        print("E0 = {:20.20f};".format(self.e0))
+        print("B0 = {:20.20f};".format(self.k0))
+        print("Bp = {:20.20f};".format(self.k0_prime))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        update_fitter_info_window(-1, False, ("E0 = {:20.20f};\n".format(self.e0)) + ("B0 = {:20.20f};\n".format(self.k0)) +
+                                  ("Bp = {:20.20f};\n".format(self.k0_prime)) + ("rho0 = {:20.20f};".format(self.rho0)))
 
     @staticmethod
     def _f(rho, *coeffs):
@@ -2484,14 +2485,14 @@ class EHighP(Energy_Fit_Class):
         return self.rho0, self.c1, self.c2, self.c3, self.c4
 
     def _print_coefficients(self):
-        print("rho0 = {};".format(self.rho0))
-        print("c1 = {};".format(self.c1))
-        print("c2 = {};".format(self.c2))
-        print("c3 = {};".format(self.c3))
-        print("c4 = {};".format(self.c4))
-        update_fitter_info_window(-1, False, ("rho0 = {};\n".format(self.rho0)) + ("c1 = {};\n".format(self.c1)) +
-                                  ("c2 = {};\n".format(self.c2)) + ("c3 = {};\n".format(self.c3)) +
-                                  ("c4 = {};".format(self.c4)))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("c1 = {:20.20f};".format(self.c1))
+        print("c2 = {:20.20f};".format(self.c2))
+        print("c3 = {:20.20f};".format(self.c3))
+        print("c4 = {:20.20f};".format(self.c4))
+        update_fitter_info_window(-1, False, ("rho0 = {:20.20f};\n".format(self.rho0)) + ("c1 = {:20.20f};\n".format(self.c1)) +
+                                  ("c2 = {:20.20f};\n".format(self.c2)) + ("c3 = {:20.20f};\n".format(self.c3)) +
+                                  ("c4 = {:20.20f};".format(self.c4)))
 
     @staticmethod
     def _f(x, *coeffs):
@@ -2538,14 +2539,14 @@ class ThetaBP(Base_Fit_Class):
         return self.theta0, self.rho0, self.q, self.c1, self.c2
 
     def _print_coefficients(self):
-        print("theta0 = {};".format(self.theta0))
-        print("rho0 = {};".format(self.rho0))
-        print("q = {};".format(self.q))
-        print("c1 = {};".format(self.c1))
-        print("c2 = {};".format(self.c2))
-        update_fitter_info_window(-1, False, ("theta0 = {};\n".format(self.theta0)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("q = {};\n".format(self.q)) +
-                                  ("c1 = {};\n".format(self.c1)) + ("c2 = {};".format(self.c2)))
+        print("theta0 = {:20.20f};".format(self.theta0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("q = {:20.20f};".format(self.q))
+        print("c1 = {:20.20f};".format(self.c1))
+        print("c2 = {:20.20f};".format(self.c2))
+        update_fitter_info_window(-1, False, ("theta0 = {:20.20f};\n".format(self.theta0)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("q = {:20.20f};\n".format(self.q)) +
+                                  ("c1 = {:20.20f};\n".format(self.c1)) + ("c2 = {:20.20f};".format(self.c2)))
 
     def guess_coefficients(self,
                            points):  # We don't have a guess method for ThetaBP yet.  It only handles the compression side
@@ -2606,14 +2607,14 @@ class GammaRho(Base_Fit_Class):
         return self.gamma0, self.rho0, self.q, self.c1, self.c2
 
     def _print_coefficients(self):
-        print("gamma0 = {};".format(self.gamma0))
-        print("rho0 = {};".format(self.rho0))
-        print("q = {};".format(self.q))
-        print("c1 = {};".format(self.c1))
-        print("c2 = {};".format(self.c2))
-        update_fitter_info_window(-1, False, ("gamma0 = {};\n".format(self.gamma0)) +
-                                  ("rho0 = {};\n".format(self.rho0)) + ("q = {};\n".format(self.q)) +
-                                  ("c1 = {};\n".format(self.c1)) + ("c2 = {};".format(self.c2)))
+        print("gamma0 = {:20.20f};".format(self.gamma0))
+        print("rho0 = {:20.20f};".format(self.rho0))
+        print("q = {:20.20f};".format(self.q))
+        print("c1 = {:20.20f};".format(self.c1))
+        print("c2 = {:20.20f};".format(self.c2))
+        update_fitter_info_window(-1, False, ("gamma0 = {:20.20f};\n".format(self.gamma0)) +
+                                  ("rho0 = {:20.20f};\n".format(self.rho0)) + ("q = {:20.20f};\n".format(self.q)) +
+                                  ("c1 = {:20.20f};\n".format(self.c1)) + ("c2 = {:20.20f};".format(self.c2)))
 
     def guess_coefficients(self, points):
         # If we don't have either gamma0 or rho0, just up the first point for both.
@@ -2675,14 +2676,14 @@ class GammaV(Base_Fit_Class):
         return self.gamma0, self.rho0, self.q, self.c1, self.c2
 
     def _print_coefficients(self):
-        print("gamma0 = {};".format(self.gamma0))
-        print("V0 = {};".format(self.rho0))
-        print("q = {};".format(self.q))
-        print("c1 = {};".format(self.c1))
-        print("c2 = {};".format(self.c2))
-        update_fitter_info_window(-1, False, ("gamma0 = {};\n".format(self.gamma0)) +
-                                  ("V0 = {};\n".format(self.rho0)) + ("q = {};\n".format(self.q)) +
-                                  ("c1 = {};\n".format(self.c1)) + ("c2 = {};".format(self.c2)))
+        print("gamma0 = {:20.20f};".format(self.gamma0))
+        print("V0 = {:20.20f};".format(self.rho0))
+        print("q = {:20.20f};".format(self.q))
+        print("c1 = {:20.20f};".format(self.c1))
+        print("c2 = {:20.20f};".format(self.c2))
+        update_fitter_info_window(-1, False, ("gamma0 = {:20.20f};\n".format(self.gamma0)) +
+                                  ("V0 = {:20.20f};\n".format(self.rho0)) + ("q = {:20.20f};\n".format(self.q)) +
+                                  ("c1 = {:20.20f};\n".format(self.c1)) + ("c2 = {:20.20f};".format(self.c2)))
 
     def guess_coefficients(self, points):
         # If we don't have either gamma0 or rho0, just up the first point for both.
@@ -2753,6 +2754,7 @@ class GammaPoly(PolyBase):
         self._lowP_f = None
         # rho_is_density indicates whether x values and rho0 are density (True) or volume (False)
         self._rho_is_density = rho_is_density
+        self.name = name
 
     def _get_highP_lowP_x_indices(self, x):
         """
@@ -2909,13 +2911,13 @@ class SimonGlatzel(Base_Fit_Class):
     def _print_coefficients(self):
         global global_T0 
         global global_P0         
-        print("T0 = {};".format(global_T0))
-        print("P0 = {};".format(global_P0))
-        print("a = {};".format(self.a))
-        print("b = {};".format(self.b))
-        update_fitter_info_window(-1, False, ("P0 = {};\n".format(global_P0)) +
-                                  ("T0 = {};\n".format(global_T0)) + ("a = {};\n".format(self.a)) +
-                                  ("b = {};\n".format(self.b)))
+        print("T0 = {:20.20f};".format(global_T0))
+        print("P0 = {:20.20f};".format(global_P0))
+        print("a = {:20.20f};".format(self.a))
+        print("b = {:20.20f};".format(self.b))
+        update_fitter_info_window(-1, False, ("P0 = {:20.20f};\n".format(global_P0)) +
+                                  ("T0 = {:20.20f};\n".format(global_T0)) + ("a = {:20.20f};\n".format(self.a)) +
+                                  ("b = {:20.20f};\n".format(self.b)))
 
     def guess_coefficients(self,
                            points):  
@@ -2990,14 +2992,14 @@ class SimonGlatzelExtension(Base_Fit_Class):
     def _print_coefficients(self):
         global global_T0 
         global global_P0         
-        print("T0 = {};".format(global_T0))
-        print("P0 = {};".format(global_P0))
-        print("a = {};".format(self.a))
-        print("b = {};".format(self.b))
-        print("c = {};".format(self.c))
-        update_fitter_info_window(-1, False, ("P0 = {};\n".format(global_P0)) +
-                                  ("T0 = {};\n".format(global_T0)) + ("a = {};\n".format(self.a)) +
-                                  ("b = {};\n".format(self.b)) + ("c = {};\n".format(self.c)))
+        print("T0 = {:20.20f};".format(global_T0))
+        print("P0 = {:20.20f};".format(global_P0))
+        print("a = {:20.20f};".format(self.a))
+        print("b = {:20.20f};".format(self.b))
+        print("c = {:20.20f};".format(self.c))
+        update_fitter_info_window(-1, False, ("P0 = {:20.20f};\n".format(global_P0)) +
+                                  ("T0 = {:20.20f};\n".format(global_T0)) + ("a = {:20.20f};\n".format(self.a)) +
+                                  ("b = {:20.20f};\n".format(self.b)) + ("c = {:20.20f};\n".format(self.c)))
 
     def guess_coefficients(self,
                            points):  

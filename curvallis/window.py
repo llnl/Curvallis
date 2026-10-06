@@ -14,6 +14,7 @@
 Windowing system for curvallis
 @author: Eric Heinke (sudo-Eric)
 """
+from matplotlib import rcParams
 
 from curvallis.version import version as VERSION_STRING
 from tkinter import ttk
@@ -68,7 +69,7 @@ class WindowedDisplay(object):
         # Calculate size of horizontal dividing line
         horizontal_line = '=' * self._get_longest_line_width(2)
         # Font and font size (MUST use fixed width font / constant width font)
-        text_font = ("Courier", 12)
+        text_font = ("Courier", rcParams['font.size'])
         # Create Textbox
         self._main_window = tkinter.Tk()
         # resize window to fit content

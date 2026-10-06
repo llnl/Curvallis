@@ -142,6 +142,15 @@ def define_args(parser):
     )
 
 
+def _get_fitter_color(fitter_name: str, default='red'):
+    if fitter_name in lines.fitter_colors:
+        return lines.fitter_colors[fitter_name]
+    for prefix in ('gammapolyv', 'gammapoly', 'poly'):  # order matters: check gammapolyv/gammapoly before poly
+        if fitter_name.startswith(prefix):
+            return lines.fitter_colors[prefix]
+    return default
+
+
 class _Line_Set_With_Fit(lines.Line_Set):
     """ Has own fitter object, plus various fit curve lines
     """
@@ -161,7 +170,9 @@ class _Line_Set_With_Fit(lines.Line_Set):
         self._logscale = False
         self._ax = ax
         if not is_eos_data:
-            self.fit_curve = lines.Line(ax, lines.line_attributes['fit_curve'])
+            fit_attrs = dict(lines.line_attributes['fit_curve'])
+            fit_attrs['color'] = _get_fitter_color(self._fitter if type(self._fitter) is str else self._fitter.name, fit_attrs['color'])
+            self.fit_curve = lines.Line(ax, fit_attrs)
             self.derivative_curve = lines.Line(ax, lines.line_attributes['derivative'])
             self.integral_curve = lines.Line(ax, lines.line_attributes['integral'])
 

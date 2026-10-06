@@ -248,19 +248,20 @@ class ArgumentParser(argparse.ArgumentParser):
 
             # add config settings to the command line if they aren't there already
             config_args = []
+            to_delete = []
             for key, value in config_settings.items():
                 if key in possible_config_keys:
                     action = possible_config_keys[key]
                     already_on_command_line = any(
                         arg in args for arg in action.option_strings)
                     if already_on_command_line:
-                        del config_settings[key]
+                        to_delete.append(key)
                     else:
                         # check if there is more than one input/output
-                        if (key == "parabola_in" or key == "predefined_in" or 
+                        if (key == "parabola_in" or key == "predefined_in" or
                             key == "in_eos_file_base" or key == "input_file" or
                             key == "out_eos_file_base"):
-                            if (args_com[0].parabola_in != False or 
+                            if (args_com[0].parabola_in != False or
                                 args_com[0].predefined_in != False or
                                 args_com[0].in_eos_file_base != None or
                                 args_com[0].out_eos_file_base != None or
@@ -275,9 +276,9 @@ class ArgumentParser(argparse.ArgumentParser):
                         if not already_input:
                             config_args += self.convert_setting_to_command_line_arg(
                                 action, key, value)
-
+            for key in to_delete:
+                del config_settings[key]
             args = config_args + args
-
             if config_args:
                 self._source_to_settings[
                     "Config File (%s):\n" %stream.name]=config_settings

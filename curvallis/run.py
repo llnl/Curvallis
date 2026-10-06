@@ -38,6 +38,18 @@ if sys.platform == 'darwin': # Perhaps more system checks need to be used
 else:
     matplotlib.use('TkAgg')
 
+font_size = 12
+
+rcParams['font.size'] = font_size
+
+rcParams['xtick.labelsize'] = font_size # Somewhere else is overriding these two
+rcParams['ytick.labelsize'] = font_size
+
+rcParams['axes.titlesize'] = font_size
+rcParams['axes.labelsize'] = font_size
+rcParams['legend.fontsize'] = font_size
+rcParams['figure.titlesize'] = font_size
+
 # Overwrite Panning and Zooming Functions
 PAN_ENABLED = False
 ZOOM_ENABLED = False
@@ -93,7 +105,7 @@ class CurveInteractor(object):
         # Used in pyplot callbacks.  Not related to background_*:
         self.background = None
         self._background_data_sets = io.Data_Sets()
-        self._background_line = None
+        self._background_line: list[lines.Line] = []
         self._canvas = None
         self._figure = None
         self._figure_padding = 1.08
@@ -200,13 +212,14 @@ class CurveInteractor(object):
         self._figure = pyplot.figure('Curve Editor', figsize=(12, 8))
         self._canvas = self._figure.canvas
         # One row, one column, first subplot:
-        self._ax = self._figure.add_subplot(1, 1, 1)
+        self._ax = self._figure.add_subplot(1, 1, 1) # TODO MARKER HERE LOOK SUBPLOT STUFF WE NEED TO MODIFY THIS TO BECOME A SCATTERPLOT IF THE DATA IS 2D
         # Minimize margins:
         self._figure.tight_layout(pad=self._figure_padding)
         # Make axes ticks update and stay detailed
         self._ax.minorticks_on()
-        self._ax.set_xlabel(self._args.x_label[0])
-        self._ax.set_ylabel(self._args.y_label[0])
+        self._ax.set_xlabel(self._args.x_label[0], fontsize=rcParams['font.size'])
+        self._ax.set_ylabel(self._args.y_label[0], fontsize=rcParams['font.size'])
+        self._ax.tick_params(axis='both', labelsize=12)
         #        self._background_line = lines.Line(
         #            self._ax, lines.line_attributes['background_points'])
         self._background_line = []
@@ -312,7 +325,7 @@ class CurveInteractor(object):
         if self._background_data_sets.num_sets() > 0:
             # Plot each background data line
             for back_set in self._background_data_sets.get_set_values():
-                if (len(back_set) > 0):
+                if len(back_set) > 0:
                     self._background_line.append(
                         lines.Line(self._ax, lines.line_attributes['background_points']))
                     self._background_line[-1].plot_xy_data(back_set)
@@ -406,6 +419,9 @@ class CurveInteractor(object):
             else:  # Else:
                 self._quit_pending = False  # cancel quit pending
                 print('Quit cancelled.')
+        elif event.key == 'cmd+q':
+            print('Quitting')
+            exit(0)
         elif event.key == 'q':  # If 'q' pressed
             # Display pending quit
             print('Quit requested.  Press q again to quit, any other key to cancel.')
@@ -759,16 +775,16 @@ class CurveInteractor(object):
         # Set up Equation Plotting window
         textbox = Tk()
         textbox.title("Interactive Plotter")
-        l = Label(textbox, text="Enter an equation to plot in terms of x.")
-        l2 = Label(textbox, text="F(x) = ")
-        l3 = Label(textbox, text="Filename: ")
-        e = Entry(textbox, width=35)
-        e2 = Entry(textbox, width=35)
-        b1 = Button(textbox, text="Plot", width=10,
+        l = Label(textbox, text="Enter an equation to plot in terms of x.", font=('Helvetica', 12))
+        l2 = Label(textbox, text="F(x) = ", font=('Helvetica', 12))
+        l3 = Label(textbox, text="Filename: ", font=('Helvetica', 12))
+        e = Entry(textbox, width=35, font=('Helvetica', 12))
+        e2 = Entry(textbox, width=35, font=('Helvetica', 12))
+        b1 = Button(textbox, text="Plot", width=10, font=('Helvetica', 12),
                     command=lambda: plot_callback(e))
-        b2 = Button(textbox, text="Delete", width=10,
+        b2 = Button(textbox, text="Delete", width=10, font=('Helvetica', 12),
                     command=lambda: delete_callback(e))
-        b3 = Button(textbox, text="Write", width=10,
+        b3 = Button(textbox, text="Write", width=10, font=('Helvetica', 12),
                     command=lambda: write_callback(e, e2))
         textbox.protocol("WM_DELETE_WINDOW", lambda: close_callback(e))
         l.grid(columnspan=4, pady=10, padx=100)
